@@ -1,0 +1,36 @@
+:root{
+  --bg-primary : rgb(23 23 23);
+  --text-primary : white;
+  --navbar-bg:rgb(38 38 38);
+  --font-primary: 'Inter', sans-serif;
+  --hover-extra:#404040;
+  --bg-secondary : #ca8a04;
+  --text-secondary: white;
+}
+
+@import "tailwindcss";
+
+body{
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+}
+#outerWrap{
+  display: flex;
+}
+section#main{
+  width: 100%;
+}
+@media screen and (min-width: 556px) {
+  section.flow{
+    padding: 30px 10px;
+  }
+}
+@media screen and (min-width: 991px) {
+  section.flow{
+    padding: 60px 15px;
+  }
+}
+.boxShadow{
+  box-shadow: 0 1px 26px 0 var(--bg-secondary);
+}
