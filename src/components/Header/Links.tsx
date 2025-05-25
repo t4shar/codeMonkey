@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './header.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode ,faDownload , faQuestion , faUser} from '@fortawesome/free-solid-svg-icons';
