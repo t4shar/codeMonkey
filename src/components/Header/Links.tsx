@@ -15,7 +15,8 @@ type LinkItem = {
 function Links() {
   const path = usePathname();
   console.log(path);
-  const [login, setLogin] = useState(true);
+  // const [login, setLogin] = useState(true);
+  const login = true;
   const LinkArr: LinkItem[] = [
     {
       title: 'Code Editor',
@@ -48,7 +49,7 @@ function Links() {
           </li>
         ))}
         {
-          login && <li ><FontAwesomeIcon icon={faUser} /> Profile</li>
+          login && <li><FontAwesomeIcon icon={faUser} /> Profile</li>
         }
       </ul>
     </div>
