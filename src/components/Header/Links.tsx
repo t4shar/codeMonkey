@@ -4,7 +4,8 @@ import styles from './header.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode ,faDownload , faQuestion , faUser} from '@fortawesome/free-solid-svg-icons';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-
+import { usePathname } from 'next/navigation'
+import Link from "next/link";
 type LinkItem = {
   title: string;
   path: string;
@@ -12,11 +13,13 @@ type LinkItem = {
 };
 
 function Links() {
+  const path = usePathname();
+  console.log(path);
   const [login, setLogin] = useState(true);
   const LinkArr: LinkItem[] = [
     {
       title: 'Code Editor',
-      path: '/ide',
+      path: '/ide/compiler  ',
       icon: faCode,
     },
     {
@@ -39,13 +42,13 @@ function Links() {
       </div>
       <ul className={styles.LinkItems}>
         {LinkArr.map((item, index) => (
-          <li key={index}>
+          <li key={index} className= { path.startsWith(item.path) ? 'active' : '' }>
             {item.icon && <FontAwesomeIcon icon={item.icon} />}
-            <a href={item.path}>{item.title}</a>
+            <Link href={item.path}>{item.title}</Link>
           </li>
         ))}
         {
-          login && <li><FontAwesomeIcon icon={faUser} /> Profile</li>
+          login && <li ><FontAwesomeIcon icon={faUser} /> Profile</li>
         }
       </ul>
     </div>
