@@ -3,7 +3,6 @@ import axios from "axios";
 const api = process.env.NEXT_PUBLIC_COMPILER_HOST
 const apiKey = process.env.NEXT_PUBLIC_COMPILER_API_KEY
 const languagesApi = process.env.NEXT_PUBLIC_LANGAUGAES
-const JUDGE0_URL = process.env.NEXT_PUBLIC_JUDGEURL
 
 const body = {
     method :'GET',
