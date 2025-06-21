@@ -1,56 +1,58 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MonacoEditor  from '@monaco-editor/react';
 import style from './editor.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload , faGear , faRepeat} from '@fortawesome/free-solid-svg-icons';
 import Button from '../Button/Button';
+import {compileCode , getAllLangauages} from '@/lib/compiler';
 
 
-type Language = 'javascript' | 'python' | 'java' | 'cpp';
+interface language {
+  id? : number,
+  name? : string
+}
 
-// Default code templates for each language
-const defaultCode: Record<Language, string> = {
-  javascript: `// JavaScript Example
-console.log("Hello, world!");`,
-  python: `# Python Example
-print("Hello, world!")`,
-  java: `// Java Example
-public class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, world!");
-    }
-}`,
-  cpp: `// C++ Example
-#include <iostream>
-int main() {
-    std::cout << "Hello, world!" << std::endl;
-    return 0;
-}`,
-};
+
 
 const Editor: React.FC = () => {
-  const [language, setLanguage] = useState<Language>('javascript');
-  const [code, setCode] = useState<string>(defaultCode.javascript);
+  const [language, setLanguage] = useState<string>("63");
+  const [Languages, setLanguages] = useState<language[]>([])
+  const [code, setCode] = useState<string>('Write Your Code Here');
+  const [codeOutput, setcodeOutput] = useState<string>('')
+  const [inputArea, setInputArea] = useState<string>('')
 
-  // Handle when the user selects a different language
+
+  useEffect(() => {
+    const setDefaultLang = async() =>{
+      const data = await getAllLangauages();
+      if(data){
+        setLanguages(data);
+      }
+    }
+    setDefaultLang();
+  }, [])
+  
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newLang = e.target.value as Language;
+    const newLang = e.target.value as string;
     setLanguage(newLang);
-    // Load default code for the newly selected language
-    setCode(defaultCode[newLang] || '');
   };
-
+  async function handleCodeRun(){
+   const response = await  compileCode(language,code,inputArea);
+   setcodeOutput('Write Your Code Here')
+   setcodeOutput(response)
+  }
   return (
     <div className="flex flex-row py-4 px-1 bg-recessive" style={{ height : '100vh'}} >
       <div className='w-1/2'>
 
         <div className='editorNav py-2 px-2 flex flex-row justify-between'>
           <select id="language-select" className={style.select + " p-1 border border-gray-300 bg-primary  focus:outline-none"}  value={language} onChange={handleLanguageChange} >
-            <option  value="javascript">JavaScript</option>
-            <option value="python">Python</option>
-            <option value="java">Java</option>
-            <option value="cpp">C++</option>
+            { Languages.map( (lang,index) =>{
+              return (
+                <option key={index} value={lang.id}>{lang.name}</option>
+              )
+            } ) }
           </select>
 
           <div className='rightNav'>
@@ -71,7 +73,7 @@ const Editor: React.FC = () => {
         <div className="border border-gray-200 rounded editorContainer">
           <MonacoEditor
             height="100%"
-            language={language}
+            // language={language}
             value={code}
             onChange={(value) => setCode(value || '')}
             theme="vs-dark"
@@ -82,14 +84,14 @@ const Editor: React.FC = () => {
       </div>
       <div className='w-1/2 flex flex-col px-3'>
         <div className='editorNav py-2 px-1 flex flex-row justify-between' title='Run Code'>
-          <Button text="Run" style='btn btn-primary buttonSmall'  />
+          <Button text="Run" style='btn btn-primary buttonSmall' onClick={handleCodeRun}  />
         </div>
         <div className="my-1">
-            <textarea name="" id="" className={style.inputArea} placeholder='If your code takes input, Enter you Input here'></textarea>
+            <textarea name="inputArea" value={inputArea} onChange={(e)=> setInputArea(e.target.value)} id="inputArea" className={style.inputArea} placeholder='If your code takes input, Enter you Input here'></textarea>
         </div>
         <div className={style.outputArea+ ' my-1'}>
           <p>Output</p>
-          <textarea name=""  id=""></textarea>
+          <textarea name="outPutArea"  id="outPutArea" readOnly value={codeOutput}></textarea>
         </div>
       </div>
     </div>
