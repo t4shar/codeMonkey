@@ -18,10 +18,10 @@ interface language {
 const Editor: React.FC = () => {
   const [language, setLanguage] = useState<string>("63");
   const [Languages, setLanguages] = useState<language[]>([])
-  const [code, setCode] = useState<string>('Write Your Code Here');
+  const [code, setCode] = useState<string>('// Write Your Code Here');
   const [codeOutput, setcodeOutput] = useState<string>('')
   const [inputArea, setInputArea] = useState<string>('')
-
+  const [compiling , setCompiling] = useState<number>(0);
 
   useEffect(() => {
     const setDefaultLang = async() =>{
@@ -35,11 +35,12 @@ const Editor: React.FC = () => {
   
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newLang = e.target.value as string;
+    setcodeOutput('// Write Your Code Here')
     setLanguage(newLang);
   };
   async function handleCodeRun(){
    const response = await  compileCode(language,code,inputArea);
-   setcodeOutput('Write Your Code Here')
+   console.log(response);
    setcodeOutput(response)
   }
   return (
@@ -89,9 +90,28 @@ const Editor: React.FC = () => {
         <div className="my-1">
             <textarea name="inputArea" value={inputArea} onChange={(e)=> setInputArea(e.target.value)} id="inputArea" className={style.inputArea} placeholder='If your code takes input, Enter you Input here'></textarea>
         </div>
-        <div className={style.outputArea+ ' my-1'}>
           <p>Output</p>
-          <textarea name="outPutArea"  id="outPutArea" readOnly value={codeOutput}></textarea>
+        <div className={style.outputArea+ ' my-1 p-3'}>
+            {
+              // codeOutput &&
+              <div className='outPutArea__wrapper border p-3 h-full'>
+                <div className="status"> Status : Successfully executed </div>
+                <div className='flex flex-wrap my-5'>
+                  <div className='w-[150px] flex flex-col'>
+                    <span>Time:</span>
+                    <span>0.1300 secs</span>
+                  </div>
+                  <div className='w-[150px] flex flex-col'>
+                    <span>Memory:</span>
+                    <span>49.012 Mb</span>
+                    
+                  </div>
+                </div>
+              </div>
+              
+              // :
+              // <div> Compiling....</div>
+            }
         </div>
       </div>
     </div>

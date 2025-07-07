@@ -2,6 +2,7 @@ import { Header } from "@/components/Header/Header";
 import "./globals.css";
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
+import { Footer } from "@/components/Footer/Footer";
 config.autoAddCss = false
 
 export default function RootLayout({
@@ -24,6 +25,7 @@ export default function RootLayout({
           {children}
           </section>
         </div>
+        <Footer/>
       </body>
     </html>
   );

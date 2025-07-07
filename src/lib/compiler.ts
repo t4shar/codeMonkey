@@ -40,7 +40,7 @@ export const compileCode = async(language : string , code : string , inputArea :
     );
 
     const output = result.data.stdout || result.data.stderr || result.data.compile_output || 'No output';
-    console.log('Execution output:\n', output);
+    console.log('Execution output:\n', result.data);
 
     return output;
   } catch (error) {

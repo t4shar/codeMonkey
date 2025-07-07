@@ -1,0 +1,12 @@
+.card{
+    justify-content: space-between;
+    svg{
+        color: var(--bg-secondary);   
+        width: 30px;
+        height: 30px;
+    }
+    h2{
+        font-weight: 700;
+        font-size: 22px;
+    }
+}

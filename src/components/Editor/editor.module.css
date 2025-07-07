@@ -7,7 +7,6 @@
     resize: none;
     background-color: var(--bg-primary);
     width: 100%;
-    border-radius: 5px;
     padding: 10px;
     font-size: 14px;
 }
@@ -20,13 +19,9 @@
     margin-left: 5px;
 }
 .outputArea{
-    height: 100%;
-}
-.outputArea textarea{
     resize: none;
     height: 100%;
     width: 100%;
-    border-radius: 5px;
     resize: none;
     background-color: var(--bg-primary);
 }
