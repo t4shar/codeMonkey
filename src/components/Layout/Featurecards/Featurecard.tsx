@@ -1,8 +1,6 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode ,faDownload ,faUsers, faQuestion , faUser , faGears} from '@fortawesome/free-solid-svg-icons';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import styles from './card.module.css';
 import Card from './Card';
 
 

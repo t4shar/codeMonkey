@@ -1,33 +1,36 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import MonacoEditor from '@monaco-editor/react';
 import style from './editor.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faGear, faRepeat } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Button/Button';
-import { compileCode, getAllLangauages } from '@/lib/compiler';
+import { compileCode } from '@/lib/compiler';
 import CodeOutput from "../../types/codeOutput";
-import language from '../../types/language';
 import { languages } from '@/data/languages';
 
 
-
-const Editor: React.FC = () => {
-  const [language, setLanguage] = useState<string>("63");
-  const [code, setCode] = useState<string>('// Write Your Code Here');
+const Editor: React.FC = () => { 
+  const [languageId, setLanguageId] = useState<string>("105");
+  const [code, setCode] = useState<string>(languages[4].template ?? '// write your code here');
   const [codeOutput, setcodeOutput] = useState<CodeOutput | null>(null);
   const [inputArea, setInputArea] = useState<string>('')
   const [compiling, setCompiling] = useState<boolean>(false);
 
- 
+  const languageIdx = languages.findIndex(lang => String(lang.id) === languageId);
 
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newLang = e.target.value as string;
-    setLanguage(newLang);
+    const newLangId = e.target.value as string;
+    const newIdx = languages.findIndex(lang => String(lang.id) === newLangId);
+    
+    if (newIdx !== -1) {
+      setLanguageId(newLangId);
+      setCode(languages[newIdx].template);
+    }
   };
   async function handleCodeRun() {
     setCompiling(true);
-    const response = await compileCode(language, code, inputArea);
+    const response = await compileCode(languageId, code, inputArea);
     setcodeOutput(response);
     setCompiling(false);
   }
@@ -36,10 +39,10 @@ const Editor: React.FC = () => {
       <div className='w-1/2'>
 
         <div className='editorNav py-2 px-2 flex flex-row justify-between'>
-          <select id="language-select" className={style.select + " p-1 border border-gray-300 bg-primary  focus:outline-none"} value={language} onChange={handleLanguageChange} >
+          <select id="language-select" className={style.select + " p-1 border border-gray-300 bg-primary  focus:outline-none"} value={languageId} onChange={handleLanguageChange} >
             {languages.map((lang, index) => {
               return (
-                <option key={index} value={String(lang.id ?? '')}>{lang.name}</option>
+                <option key={index} id={String(index)} value={String(lang.id ?? '')}>{lang.name}</option>
               )
             })}
           </select>
@@ -62,7 +65,7 @@ const Editor: React.FC = () => {
         <div className="border border-gray-200 rounded editorContainer">
           <MonacoEditor
             height="100%"
-            // language={language}
+            language={languages[languageIdx].monaco}
             value={code}
             onChange={(value) => setCode(value || '')}
             theme="vs-dark"

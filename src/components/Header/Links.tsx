@@ -36,10 +36,10 @@ function Links() {
 
   return (
     <div className={styles.Links}>
-      <a className={styles.logo} href='/'>
+      <Link className={styles.logo} href='/'>
         <FontAwesomeIcon icon={faCode} />
         <h2>CodeMonkey</h2>
-      </a>
+      </Link>
       <ul className={styles.LinkItems}>
         {LinkArr.map((item, index) => (
           <li key={index} className= { path.startsWith(item.path) ? 'active' : '' }>
